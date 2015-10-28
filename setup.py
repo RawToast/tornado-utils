@@ -21,6 +21,7 @@ setup(name='tornado-utils-3',
       ],
       install_requires=[
           "tornado",
+          "bcrypt",
       ],
       classifiers=[
            'Programming Language :: Python :: 3',

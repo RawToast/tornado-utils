@@ -1,10 +1,11 @@
-import datetime
 import unittest
+
 
 class UtilsTestCase(unittest.TestCase):
 
     def test_parse_datetime(self):
-        from ..utils import parse_datetime, DatetimeParseError
+        from tornado_utils import parse_datetime
+        from tornado_utils import DatetimeParseError
 
         r = parse_datetime('1285041600000')
         self.assertEqual(r.year, 2010)
@@ -19,10 +20,10 @@ class UtilsTestCase(unittest.TestCase):
 
 
     def test_encrypt_password(self):
-        from ..utils import encrypt_password
+        from tornado_utils import encrypt_password
 
-        p = encrypt_password('', log_rounds=1)
-        p2 = encrypt_password('', log_rounds=1)
+        p = encrypt_password('', log_rounds=12)
+        p2 = encrypt_password('', log_rounds=12)
         self.assertNotEqual(p, p2)
 
         self.assertTrue(isinstance(p, unicode))
@@ -31,12 +32,12 @@ class UtilsTestCase(unittest.TestCase):
         # simulate what the User class's check_password does
         import bcrypt
         p = 'secret'
-        r = encrypt_password(p, log_rounds=2)
+        r = encrypt_password(p, log_rounds=12)
         hashed = r.split('$bcrypt$')[-1].encode('utf8')
         self.assertEqual(hashed, bcrypt.hashpw(p, hashed))
 
     def test_valid_email(self):
-        from ..utils import valid_email
+        from tornado_utils import valid_email
         self.assertTrue(valid_email('peterbe@gmail.com'))
         self.assertTrue(valid_email("peter'be@gmail.com"))
 
@@ -44,7 +45,7 @@ class UtilsTestCase(unittest.TestCase):
         self.assertTrue(not valid_email("peter'be@gmai"))
 
     def test_random_string(self):
-        from ..utils import random_string
+        from tornado_utils import random_string
 
         x = random_string(10)
         self.assertEqual(len(x), 10)
