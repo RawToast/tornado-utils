@@ -25,4 +25,4 @@ if __name__ == '__main__':
     import sys
     for url in sys.argv[1:]:
         if '://' in url:
-            print shorten(url)
+            print (shorten(url))

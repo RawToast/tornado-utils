@@ -11,12 +11,11 @@ suitable for aggressive HTTP caching.
 __version__ = '1.9'
 
 import os
-import cPickle
+import pickle
 import re
 import stat
 import marshal
 import warnings
-from cStringIO import StringIO
 from time import time
 from tempfile import gettempdir
 from base64 import encodestring
@@ -311,8 +310,8 @@ def run_closure_compiler(code, jar_location, verbose=False): # pragma: no cover
         t1 = time()
         a, b = len(code), len(r)
         c = round(100 * float(b) / a, 1)
-        print "Closure took", round(t1 - t0, 4),
-        print "seconds to compress %d bytes into %d (%s%%)" % (a, b, c)
+        print ("Closure took", round(t1 - t0, 4)),
+        print ("seconds to compress %d bytes into %d (%s%%)" % (a, b, c))
     return r
 
 def _run_closure_compiler(jscode, jar_location, advanced_optmization=False): # pragma: no cover
@@ -322,7 +321,7 @@ def _run_closure_compiler(jscode, jar_location, advanced_optmization=False): # p
     proc = Popen(cmd, shell=True, stdout=PIPE, stdin=PIPE, stderr=PIPE)
     try:
         (stdoutdata, stderrdata) = proc.communicate(jscode)
-    except OSError, msg:
+    except OSError as msg:
         # see comment on OSErrors inside _run_yui_compressor()
         stderrdata = \
           "OSError: %s. Try again by making a small change and reload" % msg
@@ -338,8 +337,7 @@ def run_uglify_js_compiler(code, location, verbose=False): # pragma: no cover
         t1 = time()
         a, b = len(code), len(r)
         c = round(100 * float(b) / a, 1)
-        print "UglifyJS took", round(t1 - t0, 4),
-        print "seconds to compress %d bytes into %d (%s%%)" % (a, b, c)
+        print ("UglifyJS took {} seconds to compress %d bytes into %d (%s%%)".format (round(t1 - t0, 4), a, b, c))
     return r
 
 def _run_uglify_js_compiler(jscode, location, options=''): # pragma: no cover
@@ -347,7 +345,7 @@ def _run_uglify_js_compiler(jscode, location, options=''): # pragma: no cover
     proc = Popen(cmd, shell=True, stdout=PIPE, stdin=PIPE, stderr=PIPE)
     try:
         (stdoutdata, stderrdata) = proc.communicate(jscode)
-    except OSError, msg:
+    except OSError as msg:
         # see comment on OSErrors inside _run_yui_compressor()
         stderrdata = \
           "OSError: %s. Try again by making a small change and reload" % msg
@@ -363,8 +361,7 @@ def run_yui_compressor(code, type_, jar_location, verbose=False): # pragma: no c
         t1 = time()
         a, b = len(code), len(r)
         c = round(100 * float(b) / a, 1)
-        print "YUI took", round(t1 - t0, 4),
-        print "seconds to compress %d bytes into %d (%s%%)" % (a, b, c)
+        print ("YUI took {} seconds to compress %d bytes into %d (%s%%)".format(round(t1 - t0, 4), a, b, c))
     return r
 
 def _run_yui_compressor(code, type_, jar_location):
@@ -372,7 +369,7 @@ def _run_yui_compressor(code, type_, jar_location):
     proc = Popen(cmd, shell=True, stdout=PIPE, stdin=PIPE, stderr=PIPE)
     try:
         (stdoutdata, stderrdata) = proc.communicate(code)
-    except OSError, msg:
+    except OSError as msg:
         # Sometimes, for unexplicable reasons, you get a Broken pipe when
         # running the popen instance. It's always non-deterministic problem
         # so it probably has something to do with concurrency or something
@@ -418,7 +415,7 @@ class PlainStatic(tornado.web.UIModule):
 
 _base64_conversion_file = '.base64-image-conversions.pickle'
 try:
-    _base64_conversions = cPickle.load(file(_base64_conversion_file))
+    _base64_conversions = pickle.load(file(_base64_conversion_file))
     #raise IOError
 except IOError:
     _base64_conversions = {}
@@ -439,5 +436,5 @@ class Static64(tornado.web.UIModule):
         result = template % (extension, data)
 
         _base64_conversions[image_path] = result
-        cPickle.dump(_base64_conversions, file(_base64_conversion_file, 'wb'))
+        pickle.dump(_base64_conversions, file(_base64_conversion_file, 'wb'))
         return result

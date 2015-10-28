@@ -1,24 +1,28 @@
+import mimetypes
 import time
 import random
 import os
 from email.generator import Generator
-from email.Header import Header
-from email.MIMEText import MIMEText
-from email.MIMEBase import MIMEBase
-from email.MIMEMultipart import MIMEMultipart
-from email.Utils import formatdate
-from cStringIO import StringIO
+from email.header import Header
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email.utils import formatdate, getaddresses, formataddr
+from io import StringIO
 
-from dns_name import DNS_NAME
+from dns import DNS_NAME
 from importlib import import_module
+import types
+
 
 class BadHeaderError(ValueError):
     pass
 
-def force_unicode(s, encoding):
-    if isinstance(s, unicode):
-        return s
-    return unicode(s, encoding)
+def force_unicode(s, _):
+    #if isinstance(s, unicode):
+    #    return s
+    #return unicode(s, encoding)
+    return s
 
 class Promise(object):pass
 def smart_str(s, encoding='utf-8', strings_only=False, errors='strict'):
@@ -30,8 +34,8 @@ def smart_str(s, encoding='utf-8', strings_only=False, errors='strict'):
     if strings_only and isinstance(s, (types.NoneType, int)):
         return s
     if isinstance(s, Promise):
-        return unicode(s).encode(encoding, errors)
-    elif not isinstance(s, basestring):
+        return s.encode(encoding, errors)
+    elif not isinstance(s, str):
         try:
             return str(s)
         except UnicodeEncodeError:
@@ -41,9 +45,7 @@ def smart_str(s, encoding='utf-8', strings_only=False, errors='strict'):
                 # further exception.
                 return ' '.join([smart_str(arg, encoding, strings_only,
                         errors) for arg in s])
-            return unicode(s).encode(encoding, errors)
-    elif isinstance(s, unicode):
-        return s.encode(encoding, errors)
+            return s.encode(encoding, errors)
     elif s and encoding != 'utf-8':
         return s.decode('utf-8', errors).encode(encoding, errors)
     else:
@@ -126,17 +128,17 @@ class EmailMessage(object):
         necessary encoding conversions.
         """
         if to:
-            assert not isinstance(to, basestring), '"to" argument must be a list or tuple'
+            assert not isinstance(to, str), '"to" argument must be a list or tuple'
             self.to = list(to)
         else:
             self.to = []
         if cc:
-            assert not isinstance(cc, basestring), '"cc" argument must be a list or tuple'
+            assert not isinstance(cc, str), '"cc" argument must be a list or tuple'
             self.cc = list(cc)
         else:
             self.cc = []
         if bcc:
-            assert not isinstance(bcc, basestring), '"bcc" argument must be a list or tuple'
+            assert not isinstance(bcc, str), '"bcc" argument must be a list or tuple'
             self.bcc = list(bcc)
         else:
             self.bcc = []
@@ -367,11 +369,11 @@ def get_connection(backend, fail_silently=False, **kwds):
     Both fail_silently and other keyword arguments are used in the
     constructor of the backend.
     """
-    path = backend# or settings.EMAIL_BACKEND
+    path = backend  # or settings.EMAIL_BACKEND
     try:
         mod_name, klass_name = path.rsplit('.', 1)
         mod = import_module(mod_name)
-    except ImportError, e:
+    except ImportError as e:
         raise
     klass = getattr(mod, klass_name)
     return klass(fail_silently=fail_silently, **kwds)

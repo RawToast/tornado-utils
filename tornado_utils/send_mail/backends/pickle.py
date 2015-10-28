@@ -3,7 +3,7 @@
 import time
 import datetime
 import os.path
-import cPickle
+import pickle
 import logging
 from .base import BaseEmailBackend
 try:
@@ -12,7 +12,7 @@ except ImportError:
     try:
         from .. import config
     except ImportError:
-        print "Create a file called 'send_mail_config.py' and copy from 'config.py-dist'"
+        print ("Create a file called 'send_mail_config.py' and copy from 'config.py-dist'")
         raise
 
 
@@ -58,5 +58,5 @@ class EmailBackend(BaseEmailBackend):
             c += 1
             filename = os.path.join(self.location,
                                     filename_base + '_%s.pickle' % c)
-        cPickle.dump(message, open(filename, 'wb'), self.protocol)
+        pickle.dump(message, open(filename, 'wb'), self.protocol)
         return filename

@@ -11,7 +11,7 @@ except ImportError:
     try:
         from .. import config
     except ImportError:
-        print "Create a file called 'send_mail_config.py' and copy from 'config.py-dist'"
+        print("Create a file called 'send_mail_config.py' and copy from 'config.py-dist'")
         raise
 from .. import dns_name
 DNS_NAME = dns_name.DNS_NAME

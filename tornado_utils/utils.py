@@ -11,7 +11,6 @@ except ImportError:
 
 class djangolike_request_dict(dict):
     def getlist(self, key):
-        value = self.get(key)
         return self.get(key)
 
 class DatetimeParseError(Exception):
@@ -81,9 +80,9 @@ def mkdir(newdir):
             os.mkdir(newdir)
 
 from random import choice
-from string import letters
+from string import ascii_letters
 def random_string(length):
-    return ''.join(choice(letters) for i in xrange(length))
+    return ''.join(choice(ascii_letters) for i in range(length))
 
 
 def all_hash_tags(tags, title):
