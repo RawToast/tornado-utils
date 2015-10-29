@@ -1,5 +1,7 @@
-tornado-utils
-=============
+tornado-utils-3
+===============
+
+For of peterbe/tornado-utils for use with Python 3.5
 
 A bunch of Tornado specific python utilities originally used on
 Kwissle.com
