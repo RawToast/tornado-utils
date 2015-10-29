@@ -1,5 +1,6 @@
 """Base email backend class."""
 
+
 class BaseEmailBackend(object):
     """
     Base class for email backend implementations.
@@ -37,5 +38,3 @@ class BaseEmailBackend(object):
         messages sent.
         """
         raise NotImplementedError
-
-    

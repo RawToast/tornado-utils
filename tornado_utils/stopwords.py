@@ -31,6 +31,7 @@ when
 where
 '''.split()
 
+
 def strip_stopwords(sentence):
     "Removes stopwords - also normalizes whitespace"
     words = sentence.split()

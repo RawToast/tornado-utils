@@ -18,7 +18,6 @@ class UtilsTestCase(unittest.TestCase):
 
         self.assertRaises(DatetimeParseError, parse_datetime, 'junk')
 
-
     def test_encrypt_password(self):
         from tornado_utils import encrypt_password
 

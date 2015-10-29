@@ -1,9 +1,9 @@
 """
 Backend for test environment.
 """
-import sys
 from tornado_utils import send_mail as mail  # ugliest hack known to man
 from .base import BaseEmailBackend
+
 
 class EmailBackend(BaseEmailBackend):
     """A email backend for use during test sessions.

@@ -7,7 +7,7 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup(name='tornado-utils-3',
-      version='1.7',
+      version='1.0.0',
       description='Utility scripts for a Tornado site',
       long_description=read('README.md'),
       author='Peter Bengtsson',
@@ -24,7 +24,8 @@ setup(name='tornado-utils-3',
           "bcrypt",
       ],
       classifiers=[
-           'Programming Language :: Python :: 3',
+           'Development Status :: 3 - Alpha',
+           'Programming Language :: Python :: 3.5',
            'Intended Audience :: Developers',
            'Operating System :: POSIX :: Linux',
       ],

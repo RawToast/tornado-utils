@@ -1,4 +1,3 @@
-from urllib import quote as url_quote
 from tornado.web import HTTPError
 import base64
 
