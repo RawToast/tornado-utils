@@ -3,7 +3,6 @@ tornado-utils-3
 
 WIP Fork of peterbe/tornado-utils for use with Python 3.5
 
-
 A bunch of Tornado specific python utilities originally used on
 Kwissle.com
 
