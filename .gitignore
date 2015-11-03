@@ -3,3 +3,4 @@ tornado_utils/send_mail/config.py
 *~
 MANIFEST
 dist/
+*.pypirc
